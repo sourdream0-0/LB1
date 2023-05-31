@@ -1,0 +1,97 @@
+package LB1;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+
+public class MainClass {
+	public static void main(String[] args) {
+
+		// Создаем массив и заполняем его
+		Band band[] = new Band[12];
+		band[0] = new Band ("Peach Pit", "Indie", 2016, 4);
+		band[1] = new Band ("Grouplove", "Rock", 2009, 5);
+		band[2] = new Band ("ustal", "Indie", 2017, 4);
+		band[3] = new Band ("ABBA", "Pop", 1972, 4);
+		band[4] = new Band ("N.W.A.", "Hip-hop", 1987, 8);
+		band[5] = new Band ("Queen", "Rock", 1970, 4);
+		band[6] = new Band ("The Smashing Pumpkins", "Indie", 1988, 4);
+		band[7] = new Band ("Tame Impala", "Psychedelic", 1999, 1);
+		band[8] = new Band ("Ginger Root", "City Pop", 2017, 3);
+		band[9] = new Band ("Wallows", "Pop", 2017, 3);
+		band[10] = new Band ("Earth, Wind and Fire", "R&B", 1969, 9);
+		band[11] = new Band ("Metallica", "Metal", 1981, 4);
+				
+		// Сортировка
+		sortArray(band, 1);
+
+		// Вывод в консоль заголовков	
+		band[0].printTitlesToConsole();
+		for (Band band_ : band) {			
+			band_.print();
+		}
+
+		// Запись в файл		
+		try {
+			PrintStream out = new PrintStream(new File("C:/Users/mail4/Desktop/bands.txt"));
+			band[0].printTitlesToFile(out);
+			for (Band band_ : band) {
+				band_.printToFile(out);
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println(e.getMessage());
+		}	
+		
+	}
+	
+	// Описание метода сортировки массива по возрасту (по возрастанию)	
+	private static void sortArray(Band[] band, int column) {		
+		for (int i=0; i < band.length; i++) {
+			int j_max = i;
+			for (int j = i+1; j < band.length; j++) {
+				// Если 2-й параметр в функции равен 4, то сортируем по 4-й колонке (возрасту)				
+				if ((column == 4) & (band[j_max].members> band[j].members)) {
+					j_max = j;
+				}
+				// Если 2-й параметр в функции равен 3, то сортируем по 3-й колонке (росту)
+				else if ((column == 3) &  (band[j_max].found> band[j].found)) {
+					j_max = j;
+				}
+				// Если 2-й параметр в функции равен 2, то сортируем по 2-й колонке (клубу)
+				else if (column == 2) {
+					// Находим длину наименьшего названия команды
+					int i1 = Math.min(band[j_max].genre.length(), band[j].genre.length());
+					for (int k=0; k < i1; k++) {
+						if ((int) (band[j_max].genre.charAt(k)) > (int) (band[j].genre.charAt(k))) {
+							j_max = j;
+							k = i1;
+						}	
+						else if ((int) (band[j_max].genre.charAt(k)) < (int) (band[j].genre.charAt(k))) {
+							k = i1;
+						}
+					}
+				}
+				
+				// Если 2-й параметр в функции равен 1, то сортируем по 1-й колонке (имени)
+				else if (column == 1) {
+					// Находим длину наименьшего названия команды
+					int i1 = Math.min(band[j_max].name.length(), band[j].name.length());
+					for (int k=0; k < i1; k++) {
+						if ((int) (band[j_max].name.charAt(k)) > (int) (band[j].name.charAt(k))) {
+							j_max = j;
+							k = i1;
+						}	
+						else if ((int) (band[j_max].name.charAt(k)) < (int) (band[j].name.charAt(k))) {
+							k = i1;
+						}
+					}
+				}
+			}
+			
+			Band temp = band[i];
+			band[i] = band[j_max];
+			band[j_max] = temp;
+		}
+	}
+
+}
