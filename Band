@@ -1,0 +1,41 @@
+package LB1;
+
+import java.io.PrintStream;
+
+public class Band {
+	// Задаем поля класса
+	String name;
+	String genre;
+	int found;
+	int members;
+	
+	// Описание конструктора	
+	public Band(String name, String genre, int found, int members) {
+		this.name = name;
+		this.genre = genre;
+		this.found = found;
+		this.members = members;
+	}
+
+	// Описание функции вывода заголовков в консоль
+	void printTitlesToConsole() {
+		System.out.printf("%20s %20s %10s %10s", "name", "genre", "found", "members");
+	}	
+	
+	// Описание функции вывода данных в консоль	
+	void print() {
+		System.out.printf("\n%20s %20s %10s %10s", name, genre, found, members);
+	}
+
+	// Описание функции вывода заголовков в файл	
+	void printTitlesToFile(PrintStream stream) {
+		stream.printf("%20s %20s %10s %10s", "NAME", "GENRE", "YEAR", "COUNT");
+	}
+
+	// Описание функции вывода данных в файл
+	void printToFile(PrintStream stream) {
+		stream.printf("\n%20s %20s %10s %10s", name, genre, found, members);
+	}
+	
+}
+
